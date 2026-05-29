@@ -1,0 +1,29 @@
+{
+  "name": "modrinth-mcp",
+  "version": "1.0.0",
+  "description": "MCP server for the Modrinth API",
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "modrinth-mcp": "dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": ["mcp", "modrinth", "minecraft"],
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.12.0",
+    "zod": "^3.24.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.8.0",
+    "vitest": "^3.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
