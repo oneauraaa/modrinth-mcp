@@ -12,7 +12,7 @@ export async function modrinthFetch(
 ): Promise<unknown> {
   const headers: Record<string, string> = {
     'User-Agent': 'modrinth-mcp/1.0.0',
-    ...options.headers,
+    ...(options.headers as Record<string, string> | undefined),
   };
   if (process.env.MODRINTH_TOKEN) {
     headers['Authorization'] = process.env.MODRINTH_TOKEN;
