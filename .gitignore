@@ -1,0 +1,19 @@
+# Dependencies
+node_modules/
+
+# Build output (generated via `npm run build`)
+dist/
+
+# Logs & misc
+*.log
+*.bak
+.DS_Store
+
+# Editor / tooling
+.antigravitycli/
+.vscode/
+.idea/
+
+# Env / secrets
+.env
+.env.*

@@ -10,6 +10,14 @@ import { registerTeamTools } from './tools/teams.js';
 import { registerNotificationTools } from './tools/notifications.js';
 import { registerReportTools } from './tools/reports.js';
 
+// Subcommands run before any MCP wiring so the server never starts for them.
+const subcommand = process.argv[2];
+if (subcommand === 'install') {
+  const { runInstall } = await import('./install.js');
+  await runInstall(process.argv.slice(3));
+  process.exit(process.exitCode ?? 0);
+}
+
 const server = new McpServer({
   name: 'modrinth-mcp',
   version: '1.0.0',

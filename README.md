@@ -4,14 +4,42 @@ MCP server for the [Modrinth](https://modrinth.com) API. Exposes the full Modrin
 
 ## Installation
 
-No installation needed — run via `npx`:
+Clone and build (requires Node ≥ 18):
+
+```bash
+git clone https://github.com/oneauraaa/modrinth-mcp.git
+cd modrinth-mcp
+npm install        # builds automatically via the prepare script
+```
+
+### Wizard (recommended)
+
+Run the interactive installer and pick which agents to wire up:
+
+```bash
+node dist/index.js install
+```
+
+It detects installed clients (Claude Code, Claude Desktop, Cursor, Windsurf, Gemini CLI, Codex), lets you multi-select them with the keyboard (`↑/↓` move, `space` toggle, `a` all, `enter` confirm), optionally stores your Modrinth token, and merges the server into each client's config — pointing at this clone's `dist/index.js`. Existing servers are preserved and a `.bak` backup is written.
+
+Non-interactive / scripted:
+
+```bash
+node dist/index.js install --client cursor,codex --token <your-pat>
+```
+
+Run `node dist/index.js install --help` for all options.
+
+### Manual
+
+Or add it to your client's MCP config by hand, using the absolute path to this clone:
 
 ```json
 {
   "mcpServers": {
     "modrinth": {
-      "command": "npx",
-      "args": ["-y", "modrinth-mcp"],
+      "command": "node",
+      "args": ["/absolute/path/to/modrinth-mcp/dist/index.js"],
       "env": {
         "MODRINTH_TOKEN": "your-pat-here"
       }
