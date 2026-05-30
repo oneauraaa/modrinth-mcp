@@ -5,8 +5,18 @@ import * as readline from 'node:readline';
 import { fileURLToPath } from 'node:url';
 
 // Absolute path to the built server entry (dist/index.js sits next to this file).
-// Used as the launch command since the package is run from a local clone, not npm.
 const SERVER_ENTRY = path.join(path.dirname(fileURLToPath(import.meta.url)), 'index.js');
+
+// Choose the command written into client configs based on how we're running.
+// From an npm/npx/global install the entry lives under node_modules, and the
+// absolute path is ephemeral (npx wipes its cache) — so target the package name
+// via npx. From a local clone, point at this build's absolute path.
+function launchCommand(): { command: string; args: string[] } {
+  const fromInstall = SERVER_ENTRY.split(path.sep).includes('node_modules');
+  return fromInstall
+    ? { command: 'npx', args: ['-y', 'modrinth-mcp'] }
+    : { command: 'node', args: [SERVER_ENTRY] };
+}
 
 // --- Client registry -------------------------------------------------------
 
@@ -75,7 +85,7 @@ function writeJsonConfig(filePath: string, token: string | undefined, serversKey
   if (typeof data[serversKey] !== 'object' || data[serversKey] === null) {
     data[serversKey] = {};
   }
-  const entry: Record<string, unknown> = { command: 'node', args: [SERVER_ENTRY] };
+  const entry: Record<string, unknown> = { ...launchCommand() };
   if (token) entry.env = { MODRINTH_TOKEN: token };
   data[serversKey][SERVER_NAME] = entry;
 
@@ -87,8 +97,10 @@ function writeTomlConfig(filePath: string, token: string | undefined): void {
   let content = fs.existsSync(filePath) ? fs.readFileSync(filePath, 'utf8') : '';
   backup(filePath, content);
 
+  const { command, args } = launchCommand();
+  const argsToml = args.map((a) => JSON.stringify(a)).join(', ');
   const envLine = token ? `\nenv = { MODRINTH_TOKEN = ${JSON.stringify(token)} }` : '';
-  const block = `[mcp_servers.${SERVER_NAME}]\ncommand = "node"\nargs = [${JSON.stringify(SERVER_ENTRY)}]${envLine}\n`;
+  const block = `[mcp_servers.${SERVER_NAME}]\ncommand = ${JSON.stringify(command)}\nargs = [${argsToml}]${envLine}\n`;
 
   const sectionRe = /\[mcp_servers\.modrinth\][\s\S]*?(?=\n\[|$)/;
   if (sectionRe.test(content)) {
@@ -210,9 +222,9 @@ function printHelp(): void {
 ${C.bold}modrinth-mcp install${C.reset} — add the Modrinth MCP server to your AI agents
 
 ${C.bold}Usage${C.reset}
-  node dist/index.js install                 interactive wizard
-  node dist/index.js install -c cursor,codex non-interactive
-  node dist/index.js install -t <PAT>        also write your Modrinth token
+  npx -y modrinth-mcp install                 interactive wizard
+  npx -y modrinth-mcp install -c cursor,codex non-interactive
+  npx -y modrinth-mcp install -t <PAT>        also write your Modrinth token
 
 ${C.bold}Options${C.reset}
   -c, --client <ids>   comma-separated client ids (skips the picker)

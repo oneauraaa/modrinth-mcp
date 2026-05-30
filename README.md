@@ -4,42 +4,34 @@ MCP server for the [Modrinth](https://modrinth.com) API. Exposes the full Modrin
 
 ## Installation
 
-Clone and build (requires Node ≥ 18):
-
-```bash
-git clone https://github.com/oneauraaa/modrinth-mcp.git
-cd modrinth-mcp
-npm install        # builds automatically via the prepare script
-```
-
 ### Wizard (recommended)
 
 Run the interactive installer and pick which agents to wire up:
 
 ```bash
-node dist/index.js install
+npx -y modrinth-mcp install
 ```
 
-It detects installed clients (Claude Code, Claude Desktop, Cursor, Windsurf, Gemini CLI, Codex), lets you multi-select them with the keyboard (`↑/↓` move, `space` toggle, `a` all, `enter` confirm), optionally stores your Modrinth token, and merges the server into each client's config — pointing at this clone's `dist/index.js`. Existing servers are preserved and a `.bak` backup is written.
+It detects installed clients (Claude Code, Claude Desktop, Cursor, Windsurf, Gemini CLI, Codex), lets you multi-select them with the keyboard (`↑/↓` move, `space` toggle, `a` all, `enter` confirm), optionally stores your Modrinth token, and merges the server into each client's config. Existing servers are preserved and a `.bak` backup is written.
 
 Non-interactive / scripted:
 
 ```bash
-node dist/index.js install --client cursor,codex --token <your-pat>
+npx -y modrinth-mcp install --client cursor,codex --token <your-pat>
 ```
 
-Run `node dist/index.js install --help` for all options.
+Run `npx -y modrinth-mcp install --help` for all options.
 
 ### Manual
 
-Or add it to your client's MCP config by hand, using the absolute path to this clone:
+Or add it to your client's MCP config by hand:
 
 ```json
 {
   "mcpServers": {
     "modrinth": {
-      "command": "node",
-      "args": ["/absolute/path/to/modrinth-mcp/dist/index.js"],
+      "command": "npx",
+      "args": ["-y", "modrinth-mcp"],
       "env": {
         "MODRINTH_TOKEN": "your-pat-here"
       }
@@ -49,6 +41,17 @@ Or add it to your client's MCP config by hand, using the absolute path to this c
 ```
 
 Generate a PAT at [modrinth.com/settings/account](https://modrinth.com/settings/account).
+
+### From source
+
+```bash
+git clone https://github.com/oneauraaa/modrinth-mcp.git
+cd modrinth-mcp
+npm install        # builds automatically via the prepare script
+node dist/index.js install
+```
+
+Run from a clone, the wizard points configs at your local `dist/index.js` instead of npm.
 
 ## Tools
 
