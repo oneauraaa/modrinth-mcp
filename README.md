@@ -14,7 +14,7 @@ Run the interactive installer and pick which agents to wire up:
 npx -y modrinth-mcp install
 ```
 
-It detects installed clients (Claude Code, Claude Desktop, Cursor, Windsurf, Gemini CLI, Codex), lets you multi-select them with the keyboard (`↑/↓` move, `space` toggle, `a` all, `enter` confirm), optionally stores your Modrinth token, and merges the server into each client's config. Existing servers are preserved and a `.bak` backup is written.
+It detects installed clients (Claude Code, Claude Desktop, Cursor, Windsurf, Gemini CLI, Antigravity 2.0, Codex), lets you multi-select them with the keyboard (`↑/↓` move, `space` toggle, `a` all, `enter` confirm), optionally stores your Modrinth token, and merges the server into each client's config. Existing servers are preserved and a `.bak` backup is written.
 
 Non-interactive / scripted:
 

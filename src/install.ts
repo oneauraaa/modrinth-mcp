@@ -51,6 +51,8 @@ const CLIENTS: ClientDef[] = [
   { id: 'cursor', label: 'Cursor', format: 'json', configPath: () => path.join(home, '.cursor', 'mcp.json') },
   { id: 'windsurf', label: 'Windsurf', format: 'json', configPath: () => path.join(home, '.codeium', 'windsurf', 'mcp_config.json') },
   { id: 'gemini', label: 'Gemini CLI', format: 'json', configPath: () => path.join(home, '.gemini', 'settings.json') },
+  // Antigravity 2.0, the IDE, and the CLI all read one shared central config.
+  { id: 'antigravity', label: 'Antigravity 2.0 (IDE + CLI)', format: 'json', configPath: () => path.join(home, '.gemini', 'config', 'mcp_config.json') },
   { id: 'codex', label: 'Codex (OpenAI)', format: 'toml', configPath: () => path.join(home, '.codex', 'config.toml') },
 ];
 
