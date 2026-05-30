@@ -1,5 +1,7 @@
 # modrinth-mcp
 
+[![npm](https://img.shields.io/npm/v/modrinth-mcp)](https://www.npmjs.com/package/modrinth-mcp)
+
 MCP server for the [Modrinth](https://modrinth.com) API. Exposes the full Modrinth REST API v2 as tools for AI coding assistants like Claude Code and Codex.
 
 ## Installation
@@ -128,7 +130,3 @@ npm install
 npm test        # run tests
 npm run build   # compile TypeScript
 ```
-
-## License
-
-MIT
